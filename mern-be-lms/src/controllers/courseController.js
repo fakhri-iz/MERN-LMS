@@ -169,8 +169,6 @@ export const deleteCourse = async (req, res) => {
 
     const filePath = path.join(
       dirname,
-      "..",
-      "..",
       "public/uploads/courses",
       course.thumbnail
     );
