@@ -1,6 +1,8 @@
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor, Essentials, Paragraph, Bold, Italic } from "ckeditor5";
+
+import "ckeditor5/ckeditor5.css";
 
 export default function ManageContentCreatePage() {
   return (
@@ -117,15 +119,10 @@ export default function ManageContentCreatePage() {
             editor={ClassicEditor}
             config={{
               licenseKey:
-                "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3Mzc5MzU5OTksImp0aSI6ImE4NWY5MjFiLWE4MjgtNDRhYy05NWExLTFiZGY2NTI2YzkwOSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6Ijg3OTQ4YWFjIn0.GQs3dGutvVwDlsxW8zy3yFhgYH-4aGW7G3DCULmr9xJTiGdzCKMKcf2Ce2JJQKm9JVv8FW_Xa7aSj8XQyo1EHg", // Tambahkan kunci lisensi Anda
-            }}
-            data="<p>Type your content here...</p>"
-            onReady={(editor) => {
-              console.log("Editor is ready to use!", editor);
-            }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              console.log({ data });
+                "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDAwOTU5OTksImp0aSI6IjM0ZjNiZTFhLTY0N2QtNDVlMy05OGExLWVjMThiNTg1NzcxNSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjA5MDA5N2Q5In0.qHnJyTm-O-7PXppjsEUqB1qiEIFjDi2sUdZwCq9jMhYxYc2AZRlTFPpvK5NxlQpWcskhY0ZDLunCDQNab30c8A", // Or 'GPL'.
+              plugins: [Essentials, Paragraph, Bold, Italic],
+              toolbar: ["undo", "redo", "|", "bold", "italic", "|"],
+              initialData: "<p>Hello from CKEditor 5 in React!</p>",
             }}
           />
         </div>

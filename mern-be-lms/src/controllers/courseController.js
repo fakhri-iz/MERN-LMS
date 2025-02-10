@@ -4,6 +4,7 @@ import fs from "fs";
 import categoryModel from "../models/categoryModel.js";
 import userModel from "../models/userModel.js";
 import path from "path";
+import courseDetailModel from "../models/courseDetailModel.js";
 
 export const getCourse = async (req, res) => {
   try {
@@ -63,7 +64,7 @@ export const getCourseById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const course = await courseModel.findById(id);
+    const course = await courseModel.findById(id).populate("details");
 
     return res.json({
       message: "Get course detail success",
@@ -215,6 +216,86 @@ export const deleteCourse = async (req, res) => {
 
     return res.json({
       message: "Delete course success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const postContentCourse = async (req, res) => {
+  try {
+    const body = req.body;
+
+    const course = await courseModel.findById(body.courseId);
+
+    const content = new courseDetailModel({
+      title: body.title,
+      type: body.type,
+      course: course._id,
+      text: body.text,
+      youtubeId: body.youtubeId,
+    });
+
+    await content.save();
+
+    await courseModel.findByIdAndUpdate(
+      course._id,
+      {
+        $push: {
+          details: content._id,
+        },
+      },
+      { new: true }
+    );
+
+    return res.json({ message: "Create content success" });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const updateContentCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    const course = await courseModel.findById(body.courseId);
+
+    await courseDetailModel.findByIdAndUpdate(
+      id,
+      {
+        title: body.title,
+        type: body.type,
+        course: course._id,
+        text: body.text,
+        youtubeId: body.youtubeId,
+      },
+      { new: true }
+    );
+
+    return res.json({ message: "Update content success" });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const deleteContentCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await courseDetailModel.findByIdAndDelete(id);
+
+    return res.json({
+      message: "Delete Content Success",
     });
   } catch (error) {
     console.log(error);
