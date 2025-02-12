@@ -63,12 +63,27 @@ export const getCategory = async (req, res) => {
 export const getCourseById = async (req, res) => {
   try {
     const { id } = req.params;
+    const { preview } = req.query;
 
-    const course = await courseModel.findById(id).populate("details");
+    const course = await courseModel
+      .findById(id)
+      .populate({
+        path: "category",
+        select: "name -_id",
+      })
+      .populate({
+        path: "details",
+        select: preview === "true" ? "title type youtubeId text" : "title type",
+      });
+
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
 
     return res.json({
       message: "Get course detail success",
-      data: course,
+      data: {
+        ...course.toObject(),
+        thumbnail_url: imageUrl + course.thumbnail,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -296,6 +311,24 @@ export const deleteContentCourse = async (req, res) => {
 
     return res.json({
       message: "Delete Content Success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getDetailContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const content = await courseDetailModel.findById(id);
+
+    return res.json({
+      message: "Get detail content success",
+      data: content,
     });
   } catch (error) {
     console.log(error);
