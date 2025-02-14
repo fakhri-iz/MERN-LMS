@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import {
@@ -12,6 +12,8 @@ import { createCourse, updateCourse } from "../../../services/courseService";
 export default function ManageCreateCoursePage() {
   const data = useLoaderData();
   const { id } = useParams();
+
+  console.log(data);
 
   const {
     register,
@@ -70,7 +72,7 @@ export default function ManageCreateCoursePage() {
       <header className="flex items-center justify-between gap-[30px]">
         <div>
           <h1 className="font-extrabold text-[28px] leading-[42px]">
-            New Course
+            {data === undefined ? "New" : "Edit"} Course
           </h1>
           <p className="text-[#838C9D] mt-[1]">Create new future for company</p>
         </div>
@@ -201,7 +203,7 @@ export default function ManageCreateCoursePage() {
               id="category"
               className="appearance-none outline-none w-full py-3 px-2 -mx-2 font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent"
             >
-              <option value="" hidden="">
+              <option value="" hidden>
                 Choose one category
               </option>
               {data?.categories?.data?.map((item) => (
@@ -259,7 +261,7 @@ export default function ManageCreateCoursePage() {
             }
             className="w-full rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
           >
-            Create Now
+            {data === undefined ? "Create" : "Edit"} Now
           </button>
         </div>
       </form>
