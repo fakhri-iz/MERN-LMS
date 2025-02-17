@@ -7,8 +7,9 @@ import globalRoutes from "./routes/globalRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import connectDB from "./utils/database.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
-import courseRoutes from "./routes/courseRoute.js";
+import courseRoutes from "./routes/courseRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
+import overviewRoutes from "./routes/overviewRoutes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api", paymentRoutes);
 app.use("/api", authRoutes);
 app.use("/api", courseRoutes);
 app.use("/api", studentRoutes);
+app.use("/api", overviewRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

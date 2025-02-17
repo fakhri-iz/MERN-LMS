@@ -2,6 +2,7 @@ import express from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import {
   deleteStudent,
+  getCoursesStudents,
   getStudentById,
   getStudents,
   postStudent,
@@ -32,5 +33,7 @@ studentRoutes.put(
   updateStudent
 );
 studentRoutes.delete("/students/:id", verifyToken, deleteStudent);
+
+studentRoutes.get("/students-courses", verifyToken, getCoursesStudents);
 
 export default studentRoutes;

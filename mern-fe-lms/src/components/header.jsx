@@ -1,12 +1,19 @@
 import React from "react";
 import secureLocalStorage from "react-secure-storage";
-import { STORAGE_KEY } from "../utils/const";
+import { MANAGER_SESSION, STORAGE_KEY, STUDENT_SESSION } from "../utils/const";
+import { useRouteLoaderData } from "react-router-dom";
 
-export default function Header() {
+export default function Header({ type = "manager" }) {
+  const session = useRouteLoaderData(
+    type === "manager" ? MANAGER_SESSION : STUDENT_SESSION
+  );
+
+  console.log(session);
+
   const handleLogout = () => {
     secureLocalStorage.removeItem(STORAGE_KEY);
 
-    window.location.replace("/manager/sign-in");
+    window.location.replace(`/${type}/sign-in`);
   };
 
   return (
@@ -30,8 +37,10 @@ export default function Header() {
       </form>
       <div className="relative flex items-center justify-end gap-[14px] group">
         <div className="text-right">
-          <p className="font-semibold">Shayna Angga</p>
-          <p className="text-sm leading-[21px] text-[#838C9D]">Manager</p>
+          <p className="font-semibold">{session?.name}</p>
+          <p className="text-sm leading-[21px] text-[#838C9D]">
+            {session?.role}
+          </p>
         </div>
         <button
           type="button"
@@ -46,7 +55,7 @@ export default function Header() {
         </button>
         <div
           id="ProfileDropdown"
-          className="absolute top-full hidden group-hover:block"
+          className="absolute top-full hidden group-hover:block z-30"
         >
           <ul className="flex flex-col w-[200px] rounded-[20px] border border-[#CFDBEF] p-5 gap-4 bg-white mt-4">
             <li className="font-semibold">
